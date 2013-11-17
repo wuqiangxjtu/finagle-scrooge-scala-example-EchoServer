@@ -4,7 +4,6 @@ apply {
 	plugin "scala"
 }
 
-buildscript {
 repositories{
 	mavenCentral()
 	maven {
@@ -12,10 +11,15 @@ repositories{
 	}
 }
 
-dependencies {
-	classpath "com.github.iamsteveholmes:scrooge-gradle-plugin:0.5"
-	classpath "com.twitter:scrooge-generator_${scalaLevel}:${scroogeVersion}"
-}
+buildscript {
+	repositories{
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath "com.github.iamsteveholmes:scrooge-gradle-plugin:0.5"
+		classpath "com.twitter:scrooge-generator_${scalaLevel}:${scroogeVersion}"
+	}
 }
 
 dependencies {
