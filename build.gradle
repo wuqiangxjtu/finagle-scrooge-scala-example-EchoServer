@@ -1,0 +1,41 @@
+apply {
+	plugin "idea"
+	plugin "eclipse"
+	plugin "scala"
+}
+
+buildscript {
+repositories{
+	mavenCentral()
+	maven {
+		url "http://repo.typesafe.com/typesafe/repo"
+	}
+}
+
+dependencies {
+	classpath "com.github.iamsteveholmes:scrooge-gradle-plugin:0.5"
+	classpath "com.twitter:scrooge-generator_${scalaLevel}:${scroogeVersion}"
+}
+}
+
+dependencies {
+	compile "org.scala-lang:scala-library:${scalaVersion}"
+    compile "com.foursquare:common-thrift-base:1.5.0"
+    compile "com.twitter:scrooge-core_${scalaLevel}:${scroogeVersion}"
+    compile "com.twitter:scrooge-runtime_${scalaLevel}:${scroogeVersion}"
+    compile "com.twitter:scrooge-serializer_${scalaLevel}:${scroogeVersion}"
+    compile "com.twitter:finagle-ostrich4_${scalaLevel}:${finagleVersion}"
+    testCompile "org.scalatest:scalatest_${scalaLevel}:2.0"
+}
+
+apply plugin: "scrooge-gradle-plugin"
+
+sourceSets.main.scala.srcDirs += ["src/gen/scala"]
+
+compileScrooge {
+	thriftFiles = fileTree(dir: "src/main/thrift", include: "**/*.thrift")
+	dest = file("src/gen/scala")
+	opts = ["--finagle"]
+}
+
+tasks.compileScala.dependsOn(compileScrooge)
