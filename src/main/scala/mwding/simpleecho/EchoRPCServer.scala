@@ -8,7 +8,7 @@ import com.twitter.finagle.thrift.ThriftServerFramedCodec
 object EchoRPCServer extends App {
   val service = new EchoService$FinagleService(new EchoServiceImpl, new TBinaryProtocol.Factory())
 
-  val address: SocketAddress = new InetSocketAddress(8888)
+  val address: SocketAddress = new InetSocketAddress("localhost", 8888)
   val server: Server = ServerBuilder()
     .codec(ThriftServerFramedCodec())
     .bindTo(address)

@@ -43,3 +43,13 @@ compileScrooge {
 }
 
 tasks.compileScala.dependsOn(compileScrooge)
+
+task server(dependsOn:classes) {
+	doLast{
+		javaexec {
+			main = "mwding.simpleecho.EchoRPCServer"
+            classpath sourceSets.main.runtimeClasspath
+            classpath configurations.runtime
+		}
+	}
+}
